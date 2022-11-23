@@ -1,0 +1,18 @@
+package game;
+	public class oserohantei {
+		public static boolean Hanteiside(int side){
+			if(side < 1 || side > 8){
+				return false;
+			}else{
+			return true;
+			}
+		}
+
+		public static boolean Hanteihigh(int high) {
+			if(high < 1 || high > 8){
+				return false;
+			}else{
+			return  true;
+			}
+		}
+	}
