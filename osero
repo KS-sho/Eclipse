@@ -1,0 +1,165 @@
+package game;
+
+public class オセロ {
+		public static void main(String[] args) {
+			int[] nums = {1,2,3,4,5,6,7,8};
+			char c1 = '○';
+			char c2 = '●';
+			int remenber = 1;
+			int[] whiteside = new int[64];
+			int[] whitehigh = new int[64];
+			int[] blackside = new int[remenber];
+			int[] blackhigh = new int[remenber];
+			for(int r = 0; r <= 8; r++) {
+				System.out.println("");
+				if(r >= 1) {
+					System.out.println("―――――――――――――――――――");
+				}
+			for(int i = 0; i <= 8; i++){
+				if(r == 0) {
+				if(i == 0){
+					System.out.print("|  ");
+				}else if(i == 8){
+					System.out.print(" | ");
+					System.out.print(nums[7]);
+					System.out.print(" |  ");
+				}else {
+					System.out.print(" | ");
+					System.out.print(nums[i - 1]);
+					System.out.print("");
+				}
+			}if(r > 0){
+				if(i == 0){
+					System.out.print("| ");
+					System.out.printf("%-1d",r);
+				}else if(i == 8){
+					System.out.print("");
+					System.out.print(" | ");
+					System.out.print(" ");
+					System.out.print(" | ");
+				}else {
+					System.out.print("");
+					if(i == 4 && r == 4){
+						System.out.print(" |");
+						System.out.print(c2);
+						System.out.print("");
+						continue;
+					}
+					if(i == 4 && r == 5){
+						System.out.print(" |");
+						System.out.print(c1);
+						System.out.print("");
+						continue;
+					}
+					if(i == 5 && r == 4){
+						System.out.print(" |");
+						System.out.print(c1);
+						System.out.print("");
+						continue;
+					}
+					if(i == 5 && r == 5){
+						System.out.print(" |");
+						System.out.print(c2);
+						System.out.print("");
+						continue;
+					}else{
+					System.out.print(" |  ");
+					}
+					}
+			}
+			}
+		}
+			System.out.println("");
+			System.out.println("―――――――――――――――――――");
+			
+			while(true) {
+			System.out.println("列(横の数字)を決めてください(1～8)");
+			int side = new java.util.Scanner(System.in).nextInt();
+			oserohantei.Hanteiside(side);
+			if(oserohantei.Hanteiside(side) == false){
+				System.out.println("その入力は無効です");
+				continue;
+			} 
+			whiteside[remenber - 1] = side;
+			System.out.println("段を決めてください(1～8)");
+			int high = new java.util.Scanner(System.in).nextInt();
+			oserohantei.Hanteihigh(high);
+			if(oserohantei.Hanteihigh(high) == false) {
+				System.out.println("その入力は無効です");
+				continue;
+			}
+			whitehigh[remenber - 1] =  high;
+			for(int r = 0; r <= 8; r++) {
+				System.out.println("");
+				if(r >= 1) {
+					System.out.println("―――――――――――――――――――");
+				}
+			for(int i = 0; i <= 8; i++){
+				System.out.print("");
+				if(r == 0) {
+				if(i == 0){
+					System.out.print("|  ");
+				}else if(i == 8){
+					System.out.print(" | ");
+					System.out.print(nums[7]);
+					System.out.print(" |  ");
+				}else {
+					System.out.print(" | ");
+					System.out.print(nums[i - 1]);
+					System.out.print("");
+				}
+			}if(r > 0){
+				if(i == 0){
+					System.out.print(" |");
+					System.out.printf("%-1d",r);
+				}else if(i == 8){
+					System.out.print("");
+					System.out.print(" | ");
+					System.out.print(" ");
+					System.out.print(" | ");
+				}else {
+					System.out.print("");
+					if(i == 4 && r == 4){
+						System.out.print(" |");
+						System.out.print(c2);
+						System.out.print("");
+						continue;
+					}
+					if(i == 4 && r == 5){
+						System.out.print(" |");
+						System.out.print(c1);
+						System.out.print("");
+						continue;}
+					if(i == 5 && r == 4){
+						System.out.print(" |");
+						System.out.print(c1);
+						System.out.print("");
+						continue;
+					}
+					if(i == 5 && r == 5){
+						System.out.print(" |");
+						System.out.print(c2);
+						System.out.print("");
+						continue;
+					}else{
+					System.out.print(" |  ");
+					for(int b = 0; b < whiteside.length; b++){
+						if(whiteside[b] == i && whitehigh[b] == r){
+							System.out.print(c2);
+							System.out.print("");	
+						}
+					}
+					}
+					}
+				}
+			}
+		}
+			System.out.println("");
+			System.out.println("―――――――――――――――――――");
+			remenber ++;
+			}
+		}
+	}
+
+
+
