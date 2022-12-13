@@ -1,0 +1,366 @@
+package Bingo;
+
+public class BingoBoard {
+	//----------  変数準備  -------------
+		final  String[][] Board = new String[5][5];
+		final String Star = " ★ ";
+		final int[] NumBox1 = new int[15];
+		final int[] NumBox2 = new int[15];
+		final int[] NumBox3 = new int[15];
+		final int[] NumBox4 = new int[15];
+		final int[] NumBox5 = new int[15];
+		final int[] RansuuBox = new int[75];
+		final int[] Ans = new int[25];
+		final String[] DisPlayRansuu = new String[75];
+		int a = 0;
+		int b  = 0;
+		int c = 0;
+		int d = 0;
+		int Ransuu2;
+		int Result= 0;
+		int Reach = 0;
+		boolean StarResult = false;
+		
+		public BingoBoard(){
+		}
+		
+		//----------  ビンゴ表準備  -------------
+		public void ClearBoard(){
+			for(int i = 0; i < 5; i++){
+				for(int m = 0; m < 5; m++) {
+					this.Board[m][i] = "  ";
+					this.Board[2][2] = this.Star;
+				}
+			}
+		}
+		
+		//----------  ビンゴ表に使う数字を渡す(配列渡し)  -------------
+		public void Present() {
+			for(int i = 0; i < 25; i++){
+				if(i < 5) {
+					this.Ans[i] = this.NumBox1[i];
+				}else if(i < 10){
+					this.Ans[i] = this.NumBox2[i - 5];
+				}else if(i < 15) {
+					this.Ans[i] = this.NumBox3[i - 10];
+				}else if(i < 20) {
+					this.Ans[i] = this.NumBox4[i - 15];
+				}else if(i < 25) {
+					this.Ans[i] = this.NumBox5[i - 20];
+					}
+			}
+		}
+		
+		//----------  ビンゴ表に数字を書く  -------------
+		public void GameBoardPlay(){ 
+			for(int i = 0; i < 25; i++){
+				//----------  1段目  -------------
+				if(i < 5) {
+					this.Board[0][this.c] = String.valueOf(" " + this.Ans[d] + " ");
+					if(this.Ans[d] < 10){
+					this.Board[0][this.c] = String.valueOf("  " + this.Ans[d] + " ");
+					}
+					this.c ++;
+					if(this.c == 5){
+						this.c = 0;
+					}
+					//----------  2段目  -------------
+				}else if(i < 10){
+					this.Board[1][this.c] = String.valueOf(" " + this.Ans[d] + " ");
+					this.c ++;
+					if(this.c == 5){
+						this.c = 0;
+					}
+					//----------  3段目  -------------
+				}else if(i < 15) {
+					this.Board[2][this.c] = String.valueOf(" " + this.Ans[d] + " ");
+					this.c ++;
+					if(this.c == 5){
+						this.c = 0;
+					}
+					//----------  4段目  -------------
+				}else if(i < 20) {
+					this.Board[3][this.c] = String.valueOf(" " + this.Ans[d] + " ");
+					this.c ++;
+					if(this.c == 5){
+						this.c = 0;
+					}
+					//----------  5段目  -------------
+				}else if(i < 25) {
+					this.Board[4][this.c] = String.valueOf(" " + this.Ans[d] + " ");
+					this.c ++;
+					if(this.c == 5){
+						this.c = 0;
+					}
+					}
+				this.d ++;
+			}
+			this.c = 0;
+		}
+			
+	
+		//----------  抽選が当たった場合★に変換  -------------
+		public void ContinueBoardPlay(){
+			for(int i = 0; i < 5; i++){
+				for(int r = 0; r < 5; r++){
+			if(this.Ans[b] == Ransuu2){
+				this.Board[i][r] = this.Star;
+			}
+			this.Board[2][2] = this.Star;
+			System.out.print("|" + this.Board[i][r]);
+		this.b++;
+		if(r == 4){
+			System.out.println("|");
+		}
+	}
+}
+this.b = 0;
+		}
+
+		//----------  ビンゴ又はリーチになっているか確認(タテ)  -------------
+		public void BoardResult(){
+		for(int i = 0; i < 5; i++){
+			if(this.a == 0){
+				if(this.Board[i][0].equals(this.Star)){
+					this.ResultPlus();
+				}
+				if(i == 4 && this.Result == 5){
+					this.StarResult = true;
+					break;
+				}else if(i == 4 && this.Result == 4){
+					this.Reach += 1;
+					this.Result = 0;
+					this.a++;
+					i = 0;
+				}else if(i == 4 && this.Result < 4){
+					this.Result = 0;
+					this.a++;
+					i = 0;
+				}
+			}
+			if(this.a == 1){
+				if(this.Board[i][1].equals(this.Star)){
+					this.ResultPlus();
+				}
+				if(i == 4 && this.Result == 5){
+					this.StarResult = true;
+					break;
+				}else if(i == 4 && this.Result == 4){
+					this.Reach += 1;
+					this.Result = 0;
+					this.a++;
+					i = 0;
+				}else if(i == 4 && this.Result < 4){
+					this.Result = 0;
+					this.a++;
+					i = 0;
+				}
+			}
+			if(this.a == 2){
+				if(this.Board[i][2].equals(this.Star)){
+					this.ResultPlus();
+				}
+				if(i == 4 && this.Result == 5){
+					this.StarResult = true;
+					break;
+				}else if(i == 4 && this.Result == 4){
+					this.Reach += 1;
+					this.Result = 0;
+					this.a++;
+					i = 0;
+				}else if(i == 4 && this.Result < 4){
+					this.Result = 0;
+					this.a++;
+					i = 0;
+				}
+			}
+			if(this.a == 3){
+				if(this.Board[i][3].equals(this.Star)){
+					this.ResultPlus();
+				}
+				if(i == 4 && this.Result == 5){
+					this.StarResult = true;
+					break;
+				}else if(i == 4 && this.Result == 4){
+					this.Reach += 1;
+					this.Result = 0;
+					this.a++;
+					i = 0;
+				}else if(i == 4 && this.Result < 4){
+					this.Result = 0;
+					this.a++;
+					i = 0;
+				}
+			}
+			if(this.a == 4){
+				if(this.Board[i][4].equals(this.Star)){
+					this.ResultPlus();
+				}
+				if(i == 4 && this.Result == 5){
+					this.StarResult = true;
+					break;
+				}else if(i == 4 && this.Result == 4){
+					this.Reach += 1;
+					break;
+				}else if(i == 4 && this.Result < 4){
+					break;
+				}
+			}
+						}
+		}
+		
+		
+		//----------  ビンゴ又はリーチになっているか確認(ヨコ)  -------------
+	public void BoardResult2(){
+		for(int i = 0; i < 5; i++){
+			if(this.a == 0){
+				if(this.Board[0][i].equals(this.Star)){
+					this.ResultPlus();
+				}
+				if(i == 4 && this.Result == 5){
+					this.StarResult = true;
+					break;
+				}else if(i == 4 && this.Result == 4){
+					this.Reach += 1;
+					this.Result = 0;
+					this.a++;
+					i = 0;
+				}else if(i == 4 && this.Result < 4){
+					this.Result = 0;
+					this.a++;
+					i = 0;
+				}
+			}
+			
+			if(this.a == 1){
+				if(this.Board[1][i].equals(this.Star)){
+					this.ResultPlus();
+				}
+				if(i == 4 && this.Result == 5){
+					this.StarResult = true;
+					break;
+				}else if(i == 4 && this.Result == 4){
+					this.Reach += 1;
+					this.Result = 0;
+					this.a++;
+					i = 0;
+				}else if(i == 4 && this.Result < 4){
+					this.Result = 0;
+					this.a++;
+					i = 0;
+				}
+			}
+			
+			if(this.a == 2){
+				if(this.Board[2][i].equals(this.Star)){
+					this.ResultPlus();
+				}
+				if(i == 4 && this.Result == 5){
+					this.StarResult = true;
+					break;
+				}else if(i == 4 && this.Result == 4){
+					this.Reach += 1;
+					this.Result = 0;
+					this.a++;
+					i = 0;
+				}else if(i == 4 && this.Result < 4){
+					this.Result = 0;
+					this.a++;
+					i = 0;
+				}
+			}
+			
+			if(this.a == 3){
+				if(this.Board[3][i].equals(this.Star)){
+					this.ResultPlus();
+				}
+				if(i == 4 && this.Result == 5){
+					this.StarResult = true;
+					break;
+				}else if(i == 4 && this.Result == 4){
+					this.Reach += 1;
+					this.Result = 0;
+					this.a++;
+					i = 0;
+				}else if(i == 4 && this.Result < 4){
+					this.Result = 0;
+					this.a++;
+					i = 0;
+				}
+			}
+				
+				if(this.a == 4){
+					if(this.Board[4][i].equals(this.Star)) {
+						this.ResultPlus();
+					}
+				if(i == 4 && this.Result == 5){
+					this.StarResult = true;
+					break;
+				}else if(i == 4 && this.Result == 4){
+					this.Reach += 1;
+					break;
+				}else if(i == 4 && this.Result < 4){
+					break;
+				}
+						}
+				}
+			}
+		
+	//----------  ビンゴ又はリーチになっているか確認(右下ナナメ)  -------------
+		public void BoardResult3(){
+			for(int i = 0; i < 5; i++){
+				if(this.a == 0){
+					if(this.Board[i][i].equals(this.Star)){
+						this.ResultPlus();
+					}
+					if(i == 4 && this.Result == 5){
+						this.StarResult = true;
+						break;
+					}else if(i == 4 && this.Result == 4){
+						this.Reach += 1;
+						this.Result = 0;
+						break;
+					}else if(i == 4 && this.Result < 4){
+						this.Result = 0;
+						break;
+					}
+				}
+							}
+			}
+	
+		//----------  ビンゴ又はリーチになっているか確認(右上ナナメ)  -------------
+		public void BoardResult4(){
+			int i = 0;
+			int r = 4;
+			for(int b = 0; b < 5; b++){
+					if(this.a == 0){
+					if(this.Board[i][r].equals(this.Star)){
+						this.ResultPlus();
+					}
+					if(b == 4 && this.Result == 5){
+						this.StarResult = true;
+						break;
+					}else if(i == 4 && this.Result == 4){
+						this.Reach += 1;
+						break;
+					}else if(b == 4 && this.Result < 4){
+						break;
+					}
+				}
+					i ++;
+					r --;
+			}
+		}
+			
+		//インスタンス変数の初期化
+		public void ClearResult(){
+			this.a = 0;
+			this.Result = 0;
+		}
+		//★の数確認
+		private void ResultPlus(){
+			this.Result++;
+		}
+	
+	}
+	
