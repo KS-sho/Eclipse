@@ -1,0 +1,62 @@
+package doraque;
+	public class Hero {
+		final int maxhp = 210;
+		final int maxmp = 40;
+		int hp = 210;
+		int mp = 40;
+		int lv = 25;
+		String name;
+		int Flag = 0;
+		
+		public void Hero(int hp,int mp,int lv){
+			this.hp = hp;
+			this.mp = mp;
+			this.lv = lv;
+		}
+		
+		public void heal(int beho) throws Exception {
+			System.out.println(this.name + "はベホイミを唱えた!");
+		if(maxhp > this.hp + beho){
+			Thread.sleep(800);
+			System.out.println(beho + "回復した!");
+			this.mp -= 8;
+			this.hp += beho;
+			}else{
+				Thread.sleep(800);
+				System.out.println(this.maxhp - this.hp +"回復した!");
+				this.mp -= 8;
+				this.hp = this.maxhp;
+			}
+		}
+		
+		public void magicattack(Doragon d, int mera) throws Exception{
+			System.out.println(this.name + "はメラゾーマを唱えた!");
+			Thread.sleep(800);
+			System.out.println(d.name + "に" + mera + "ダメージを与えた!");
+			this.mp -= 5;
+			d.hp -= mera;
+		}
+
+		public void attack(Doragon d,int hatk) throws Exception {
+			System.out.println(this.name + "はロトの剣で斬りつけた!");
+			Thread.sleep(800);
+			System.out.println(d.name + "に" + hatk + "ダメージを与えた!");
+			d.hp -= hatk;
+			
+		}
+		
+		public void doubleattack(Doragon d,int hatk) throws Exception{
+			if(this.Flag == 1){
+				Thread.sleep(800);
+				System.out.println(d.name + "に" + hatk + "ダメージを与えた!");
+				d.hp -= hatk;
+				this.Flag = 0;
+			}else{
+			System.out.println(this.name + "は目にも留まらぬ速さで2回の高速斬り!");
+			Thread.sleep(800);
+			System.out.println(d.name + "に" + hatk + "ダメージを与えた!");
+			d.hp -= hatk;
+			this.Flag ++;
+			}
+		}
+}
