@@ -1,0 +1,165 @@
+package Bingo;
+
+public class Bingo {
+		public static void main(String[] args) {
+			//-----------  変数準備  -------------
+			int Box = 0;
+			int Time = 1;
+			boolean RansuuFlag = true;
+			BingoBoard BB = new BingoBoard();
+			//----------  ビンゴ表準備  -------------
+				BB.ClearBoard();
+				
+				
+				for(int b = 1; b <= 15; b++){
+					//----------  ビンゴ表1段目1～15までの数字を配列に挿入  -------------
+					BB.NumBox1[b - 1] += b;
+					//----------  ビンゴ表2段目16～30までの数字を配列に挿入  -------------
+					BB.NumBox2[b - 1] += (b + 15);
+					//----------  ビンゴ表3段目31～45までの数字を配列に挿入  -------------
+					BB.NumBox3[b - 1] += (b + 30);
+					//----------  ビンゴ表4段目46～60までの数字を配列に挿入  -------------
+					BB.NumBox4[b - 1] += (b + 45);
+					//----------  ビンゴ表5段目61～75までの数字を配列に挿入  -------------
+					BB.NumBox5[b - 1] += (b + 60);
+				}
+	
+				
+				for(int i = 0; i < 5; i++) {
+					//----------  1～15までの数字を5つ選出  -------------
+					int ransuu1 = new java.util.Random().nextInt(15);
+					int temp1 = BB.NumBox1[ransuu1];
+					BB.NumBox1[ransuu1] = BB.NumBox1[i];
+					BB.NumBox1[i] = temp1;
+					//----------  16～30までの数字を5つ選出  -------------
+					int ransuu2 = new java.util.Random().nextInt(15);
+					int temp2 = BB.NumBox2[ransuu2];
+					BB.NumBox2[ransuu2] = BB.NumBox2[i];
+					BB.NumBox2[i] = temp2;
+					//----------  31～45までの数字を5つ選出  -------------
+					int ransuu3 = new java.util.Random().nextInt(15);
+					int temp3 = BB.NumBox3[ransuu3];
+					BB.NumBox3[ransuu3] = BB.NumBox3[i];
+					BB.NumBox3[i] = temp3;
+					//----------  46～60までの数字を5つ選出  -------------
+					int ransuu4 = new java.util.Random().nextInt(15);
+					int temp4 = BB.NumBox4[ransuu4];
+					BB.NumBox4[ransuu4] = BB.NumBox4[i];
+					BB.NumBox4[i] = temp4;
+					//----------  61～75までの数字を5つ選出  -------------
+					int ransuu5 = new java.util.Random().nextInt(15);
+					int temp5 = BB.NumBox5[ransuu5];
+					BB.NumBox5[ransuu5] = BB.NumBox5[i];
+					BB.NumBox5[i] = temp5;
+				}
+				
+				//----------  ビンゴ表に使う数字を渡す(配列渡し)  -------------
+				BB.Present();
+				for(int i = 0; i < 25; i++){
+					System.out.println("(" + i + ")" + BB.Ans[i]);
+				}
+				
+				//----------  ビンゴ表に数字を書く  -------------
+				BB.GameBoardPlay();
+				BB.ContinueBoardPlay();
+				System.out.println("(" + (Time) + "回目)ビンゴを始めます(残り" + (31 - Time) + "回)");
+				System.out.println("Push Enter");
+				String Enter = new java.util.Scanner(System.in).nextLine();
+					while(true) {
+						
+						//------------- 数字抽選(75までの数字) ----------------
+					int ransuu2 = new java.util.Random().nextInt(75)+ 1;				
+					//------------- 数字が過去ログとダブっていないか確認 --------------
+					for(int i = 0; i < BB.RansuuBox.length; i++){					
+						//------------- 数字がダブった場合(再抽選) --------------
+						if(BB.RansuuBox[i] == ransuu2){
+							System.out.println("");
+							System.out.println(ransuu2 + "!");
+							System.out.println("");
+							System.out.println(ransuu2 + " は既に" + (i + 1) + "回目に出たので再抽選します。");
+							RansuuFlag = false;
+						}else{
+							//------------- ダブってない場合(何もしない) --------------
+							BB.DisPlayRansuu[Box] = String.valueOf(ransuu2);
+				}
+					}
+					
+					//------------- 再抽選の場合、whileに戻る ---------------
+					if(RansuuFlag == false){
+						RansuuFlag = true;
+						continue;
+					}
+					
+					//------------- 過去ログに記録していく  --------------
+					BB.RansuuBox[Box] = ransuu2;
+				Box++;
+					BB.Ransuu2 = ransuu2;
+					System.out.println("");
+					System.out.println(BB.Ransuu2 + "!");
+					System.out.println("");
+					//----------  抽選が当たった場合★に変換  -------------
+					BB.ContinueBoardPlay();
+					//----------  ビンゴ又はリーチの確認(タテ)  -------------
+					BB.BoardResult();
+					//----------  インスタンス変数の初期化  -------------
+					BB.ClearResult();
+					//----------  ビンゴ又はリーチの確認(ヨコ)  -------------
+					BB.BoardResult2();
+					//----------  インスタンス変数の初期化  -------------
+					BB.ClearResult();
+					//----------  ビンゴ又はリーチの確認(右下ナナメ)  -------------
+					BB.BoardResult3();
+					//----------  インスタンス変数の初期化  -------------
+					BB.ClearResult();
+					//----------  ビンゴ又はリーチの確認(右上ナナメ)  -------------
+					BB.BoardResult4();
+					//----------  インスタンス変数の初期化  -------------
+					BB.ClearResult();
+					
+					//-------------- ビンゴになっているか確認 -----------
+					if(BB.StarResult == true){
+						System.out.println("-----------★B★I★N★G★O★---------------");
+						System.out.println("おめでとうございます!!!!!");
+						break;
+					}
+					
+					//------------ 抽選結果の過去ログ --------------
+					for(int i = 0; i < Time; i++) {
+					System.out.print("(" + (i + 1) + ")" + BB.DisPlayRansuu[i] + " ");
+					if((i + 1)%5 == 0){
+						System.out.println("");
+					}
+					}
+					
+					//------------- 30回抽選したら終了 ---------------
+					if(Time >= 30){
+						System.out.println("残念...ビンゴになりませんでした。");
+						break;
+					}
+					
+					//------------- リーチになっているか確認 ---------------
+					if(BB.Reach == 1){
+						System.out.println("");
+						System.out.println("");
+						System.out.println("リーチ!!");
+					}else if(BB.Reach == 2){
+						System.out.println("");
+						System.out.println("");
+						System.out.println("Wリーチ!!");
+					}else if(BB.Reach >= 3){
+						System.out.println("");
+						System.out.println("");
+						System.out.println("Tリーチ!!");
+					}
+					BB.Reach = 0;
+					Time ++;
+					System.out.println("");
+					System.out.println("(" + (Time) + "回目)" + "ビンゴを続けます(残り" + (31 - Time) + "回)");
+					System.out.println("Push Enter");
+					String Enter2 = new java.util.Scanner(System.in).nextLine();
+					//--------------- whileに戻る --------------
+						continue;
+					}
+				}
+				}
+		
