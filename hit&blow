@@ -1,0 +1,142 @@
+package a;
+	public class highblow {
+		public static void main(String[] args) {
+			//------------------ 準備  ------------------
+			int hit = 0;
+			int blow = 0;
+			int time = 0;
+			int[] nums = new int[9];
+			int[] ans = new int[4];
+			int[] selects = new int[4];
+			int r = 0;
+			int value = 0;
+			boolean Flag = true;
+			boolean AnsFlag = false;
+			
+			//------------------ 1-9までの数字を配列に ------------------
+			for(int i = 1; i <= nums.length; i++){
+				nums[r] += i;
+				r++;
+			}
+			
+			//------------------ 数字ランダム ------------------
+			for(int i = 0; i < 4; i++) {
+				int ransuu = new java.util.Random().nextInt(9);
+				int temp = nums[ransuu];
+				nums[ransuu] = nums[i];
+				nums[i] = temp;
+			}
+			
+			//------------------ 4桁の数字渡し ------------------
+			ans[0] = nums[0];
+			ans[1] = nums[1];
+			ans[2] = nums[2];
+			ans[3] = nums[3];
+			
+			//hit&blow開始
+			System.out.println("8回までに数字を4hitさせてください");
+			do {
+				
+				//------------------ ループで変数初期化 ------------------
+				hit = 0;
+				blow = 0;
+				value = 0;
+			System.out.println("1～9までの数字を4桁入力してください(" + (time + 1) +")回目");
+			String Select = new java.util.Scanner(System.in).nextLine();
+			//------------------ 4桁数字入力チェック -------------------
+			if(Select.matches("[1-9]{4}")){
+			}else{
+				//------------------ 数字以外、3文字以下、5文字以上が入力された場合 -------------------
+				System.out.println("その入力は無効です。");
+				continue;
+			}
+			int select = Integer.valueOf(Select);
+			//------------------ 4桁の数字を1桁ずつ切り離す -------------------
+			for(int b = 3; b >= 0; b--){
+				int x = select%10;
+				selects[b] = x; 
+				select = select/10;
+			}
+			//------------------ 入力された数字がダブっているかチェック -------------------
+			for(int i = 1; i < selects.length; i++) {
+				//------------------ 1桁目の数字チェック(2,3,4) -------------------
+			if(selects[0] == selects[i]){
+				Flag = false;
+				break;			
+				//------------------ 2桁目の数字チェック(3,4) -------------------
+			}else if(selects[1] == selects[i] && value >= 1){
+				Flag = false;
+				break;
+				//------------------ 3桁目の数字チェック(4) -------------------
+			}else if(selects[2] == selects[i] && value >= 2) {
+				Flag = false;
+				break;
+			}
+			value++;
+			}
+			//------------------ ダブってたらやり直し -------------------
+			if(Flag == false){
+				System.out.println("同じ数字が入っています。");
+				Flag = true;
+				continue;
+			}
+			
+			//------------------ ヒット&ブロー判定 -------------------
+			if(selects[0] == ans[0]) {
+				hit ++;
+			}else{
+				for(int i = 0; i < ans.length; i++) {
+					if(selects[0] == ans[i]) {
+						blow ++;
+					}
+				}
+			}
+			if(selects[1] == ans[1]) {
+				hit ++;
+			}else{
+				for(int i = 0; i < ans.length; i++) {
+					if(selects[1] == ans[i]) {
+						blow ++;
+					}
+				}
+			}
+			if(selects[2] == ans[2]) {
+				hit ++;
+			}else{
+				for(int i = 0; i < ans.length; i++) {
+					if(selects[2] == ans[i]) {
+						blow ++;
+					}
+				}
+			}
+			if(selects[3] == ans[3]) {
+				hit ++;
+			}else{
+				for(int i = 0; i < ans.length; i++) {
+					if(selects[3] == ans[i]) {
+						blow ++;
+					}
+				}
+			}
+			time ++;
+			//------------------ 判定結果 ------------------
+			System.out.println("hit" + hit + "blow" + blow);
+			
+			//------------------ HITが4になれば ------------------
+			if(hit == 4){
+				System.out.println("当たり!!!");
+				System.out.println(ans[0] + "" + ans[1] + "" 
+						+ ans[2] + "" + ans[3]);
+				AnsFlag = true;
+				break;
+			}
+			//------------------ 8回終了するまでループ ------------------
+		}while(time < 8);
+			//------------------ 4ヒットにならずに8回終了した場合 ------------------
+			if(time >= 8 && AnsFlag == false) {
+			System.out.println("8回終わりました。残念...");
+			System.out.println("正解は(" + ans[0] + "" + ans[1] + "" 
+					+ ans[2] + "" + ans[3] + ")でした。");
+		}
+		}
+	}
