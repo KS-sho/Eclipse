@@ -1,0 +1,148 @@
+package doraque;
+	public class Main {
+		public static void main(String[] args) throws Exception {
+			int power = 1;
+			int Double = 0;
+			Hero h = new Hero();
+			h.name = "勇者";
+			Doragon d = new Doragon();
+			d.name = "竜王";
+			System.out.println(d.name + "が現れた!");
+			do{
+				System.out.println("");
+				System.out.println(h.name + "(Lv " + h.lv + "): HP " + h.hp + " MP " + h.mp + " power " + power);
+				System.out.println(d.name + ": HP " + d.hp);
+				if(power <= 4){
+					System.out.println("");
+					System.out.println(h.name + "の行動:(コマンド） 1.こうげき/ 2.ベホイミ/ 3.メラゾーマ");
+				}else{
+					System.out.println("");
+					System.out.println(h.name + "の行動:(コマンド)  1.こうげき/ 2.ベホイミ/ 3.メラゾーマ/ 4.はやぶさ斬り");
+				}
+				String Select = new java.util.Scanner(System.in).nextLine();
+				if(Select.matches("[a-z]") || Select.matches("[A-Z]")){
+					System.out.println("そんなコマンドはない!");
+					continue;
+			}
+				int select = Integer.valueOf(Select);
+				if(select == 1){
+					while(true){
+		//------------ これより下のソースコードにおける乱数は大体決められた数値の10前後の振り幅になるまで繰り返す ------------
+						int hatk = new java.util.Random().nextInt(50)+1;
+						if(hatk < 40){
+						}else{
+						h.attack(d, hatk);
+						break;
+						}	
+					}	power ++;
+				}else if(select == 2){
+					if(h.mp - 8 <= 0){
+						System.out.println("mpが足りない!");
+						continue;
+					}
+					while(true){
+					int beho = new java.util.Random().nextInt(100) + 1;
+					if(beho < 85){
+					}else{
+						h.heal(beho);
+						break;
+					}
+				}power ++;
+			}else if(select == 3){
+				if(h.mp - 4 <= 0){
+					System.out.println("mpが足りない!");
+					continue;
+				}
+				while(true){
+					int mera = new java.util.Random().nextInt(75) + 1;
+					if(mera < 65){
+					}else{
+						h.magicattack(d,mera);
+						break;
+					}
+				}power ++;
+			}else if(5 > power && select == 4){
+				System.out.println("今ははやぶさ斬りを使えない!");
+				continue;
+			}else if(select == 4 && power >= 5){
+				while(true){
+				int hatk = new java.util.Random().nextInt(50)+1;
+				if(hatk < 40){
+					continue;
+				}else{
+				h.doubleattack(d, hatk);
+				if(Double == 0){
+					power -= 5;
+					Double ++;
+					continue;
+				}
+				}
+				power ++;
+				Double = 0;
+				break;
+				}
+				//------------ selectが0か5以上なら ------------
+			}else{
+				System.out.println("そんなコマンドはない!");
+				continue;
+			}
+			if(d.hp <= 0){
+				Thread.sleep(800);
+			System.out.println(d.name + "を倒した!");
+			Thread.sleep(800);
+			System.out.println("やがてアレフガルドに平和が訪れた");
+			Thread.sleep(800);
+			System.out.println("-------------------  完  -------------------");
+			break;
+			}
+			////------------ 竜王のそれぞれの行動は1/4の確立で決まる ------------
+			int dattack = new java.util.Random().nextInt(4)+1;
+			System.out.println("");
+			System.out.println(d.name + "の行動 : 1.ひっかく/ 2.激しい炎 / 3.火炎の息 / 4.瞑想");
+			System.out.println(dattack);
+			if(dattack == 1){
+				while(true){
+					int datk = new java.util.Random().nextInt(60)+1;
+					if(datk < 50){
+					}else{
+						Thread.sleep(1000);
+						d.attack(h, datk);
+						break;
+					}
+				}
+			}
+			if(dattack == 2){
+				while(true){
+					int hagebress = new java.util.Random().nextInt(70)+1;
+					if(hagebress < 60){
+					}else{
+						Thread.sleep(1000);
+						d.hageattack(h,hagebress);
+						break;
+					}
+				}
+			}
+			if(dattack == 3){
+				while(true){
+					int honobress = new java.util.Random().nextInt(30)+1;
+				if(honobress < 20){
+				}else{
+					Thread.sleep(1000);
+					d.hiattack(h,honobress);
+					break;
+				}
+					
+				}
+			}
+			if(dattack == 4){
+				Thread.sleep(1000);
+				d.meisou();
+			}
+			if(h.hp <= 0){
+				Thread.sleep(800);
+				System.out.println(h.name + "は死んでしまった...");
+				break;
+			}
+			}while(d.hp >= 0);
+			}
+		}
