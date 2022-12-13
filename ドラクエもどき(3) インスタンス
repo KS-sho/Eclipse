@@ -1,0 +1,46 @@
+package doraque;
+	public class Doragon {
+		final int Maxhp = 350;
+		final int heal = 75;
+		int hp = 350;
+		String name;
+		
+		public void Doragon(int hp){
+			this.hp = hp;
+		}
+		
+		public void attack(Hero h,int ddamage) throws Exception{
+			System.out.println(this.name + "の鋭い爪攻撃!");
+			Thread.sleep(800);
+			System.out.println(h.name + "は" + ddamage + "ダメージを受けた!");
+			h.hp -= ddamage;
+		}
+		
+		public void hageattack(Hero h,int hagebress) throws Exception{
+			System.out.println(this.name + "は激しい炎を吐いた！");
+			Thread.sleep(800);
+			System.out.println(h.name + "は" + hagebress + "ダメージを受けた");
+			h.hp -= hagebress;
+		}
+
+		public void hiattack(Hero h,int honobress) throws Exception{
+			System.out.println(this.name + "は火炎の息を吐いた！");
+			Thread.sleep(800);
+			System.out.println(h.name + "は" + honobress + "ダメージを受けた");
+			h.hp -= honobress;
+		}
+		
+		public void meisou() throws Exception{
+			if(this.Maxhp < this.hp + this.heal){
+				System.out.println(this.name + "は瞑想した！");
+				Thread.sleep(800);
+				System.out.println((this.Maxhp - this.hp) + "回復した!");
+				this.hp = this.Maxhp;
+			}else{
+				System.out.println(this.name + "は瞑想した！");
+				Thread.sleep(800);
+				System.out.println(this.heal + "回復した!");
+				this.hp += this.heal;
+			}
+		}
+	}
