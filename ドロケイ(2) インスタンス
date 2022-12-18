@@ -1,0 +1,522 @@
+package game;
+public class MapBoard {
+	final String[][]  Board = new String[9][9];
+	final String Goal = "犯";
+	final String Start = "警";
+	final String Trap = "罠";
+	final String End = "捕";
+	final String Object = "○";
+	final String Null = "￣";
+	int ObjectFlag = 1;
+	int ObjectCount = 0;
+	int Gx = 0;
+	int Gy = 0;
+	int Sx = 8;
+	int Sy = 8;
+	int Tx;
+	int Ty;
+	int Num = 0;
+	int Scount = 0;
+	int TrapCount = 0;
+	int Turn = 0;
+	int a = 0;
+	int b = 0;
+	int c = 0;
+	int DestroyCount = 0;
+	boolean RansuuFlag = true;
+	boolean MasuFlag = false;
+	boolean HanteiFlag = false;
+	boolean MainDestroyFlag = false;
+	boolean Ransuu1 = true;
+	boolean Ransuu2 = true;
+	boolean Ransuu3 = true;
+	boolean Ransuu4 = true;
+	boolean DestroyFlag1 =  false;
+	boolean DestroyFlag2 =  false;
+	boolean DestroyFlag3 =  false;
+	boolean DestroyFlag4 =  false;
+	
+	public void MapFace() {
+		for(int i = 0; i < 9; i++){
+			for(int r = 0; r < 9; r++) {
+				System.out.print("|");
+				if(this.Turn >= 3){
+				this.Board[this.Tx][this.Ty] = String.valueOf(this.Trap);
+				}
+				this.Board[this.Gx][this.Gy] = String.valueOf(this.Goal);
+				this.Board[this.Sx][this.Sy] = String.valueOf(this.Start);
+				if(this.HanteiFlag == true){
+					this.Board[this.Gx][this.Gy] = String.valueOf(this.End);
+				}
+				System.out.print(this.Board[i][r]);
+				if(r == 8){
+					System.out.println("|");
+					}
+			}
+			System.out.print(" ￣ ￣ ￣ ￣ ￣ ￣ ￣ ￣ ￣");
+			System.out.println();
+			if(i == 8){
+				break;
+			}
+		}
+	}
+
+	public void Walk(String walk) {
+		if(walk.equals("w") || walk.equals("W")){
+			if(this.Sx > 0){
+				if(Board[this.Sx - 1][Sy].equals(this.Object)){
+					System.out.println("建物(○)があるので進めません。");
+				}else if(Board[this.Sx - 1][Sy].equals(this.Trap)){
+					System.out.println("敵のトラップがあるため進めません。");
+				}else{
+				this.Board[this.Sx][this.Sy] = String.valueOf(this.Null);
+			this.Sx -= 1;
+			this.Scount++;
+				}
+			}else{
+				System.out.println("マップ外には進めません");
+			}
+		}else if(walk.equals("s") || walk.equals("S")){
+				if(this.Sx < 8){
+					if(Board[this.Sx + 1][Sy].equals(this.Object)){
+						System.out.println("建物(○)があるので進めません。");
+					}else if(Board[this.Sx + 1][Sy].equals(this.Trap)){
+						System.out.println("敵のトラップがあるため進めません。");
+					}else{
+					this.Board[this.Sx][this.Sy] = String.valueOf(this.Null);
+				this.Sx += 1;
+				this.Scount++;
+					}
+				}else{
+					System.out.println("マップ外には進めません");
+				}
+		}else  if(walk.equals("a") || walk.equals("A")){
+			if(this.Sy > 0){
+				if(Board[this.Sx][Sy - 1].equals(this.Object)){
+					System.out.println("建物(○)があるので進めません。");
+				}else if(Board[this.Sx][Sy - 1].equals(this.Trap)){
+					System.out.println("敵のトラップがあるため進めません。");
+				}else{
+				this.Board[this.Sx][this.Sy] = String.valueOf(this.Null);
+				this.Sy -= 1;
+				this.Scount++;
+				}
+			}else{
+				System.out.println("マップ外には進めません");
+			}
+		}else if(walk.equals("d") || walk.equals("D")){
+			if(this.Sy < 8){
+				if(Board[this.Sx][Sy + 1].equals(this.Object)){
+					System.out.println("建物(○)があるので進めません。");
+				}else if(Board[this.Sx][Sy + 1].equals(this.Trap)){
+					System.out.println("敵のトラップがあるため進めません。");
+				}else{
+				this.Board[this.Sx][this.Sy] = String.valueOf(this.Null);
+				this.Sy += 1;
+				this.Scount++;
+				}
+			}else{
+				System.out.println("マップ外には出れません。");
+			}
+		}else if(walk.equals("f") || walk.equals("F")){
+			this.Scount++;
+		}else if(walk.equals("r") || walk.equals("R")){
+			this.Scount++;
+		}else{
+			System.out.println("その入力は無効です");
+		}
+	}
+
+	public void CleanBoard() {
+		for(int i = 0; i < 9; i++){
+			for(int r = 0; r < 9; r++) {
+				this.Board[i][r] = String.valueOf(this.Null);
+					}
+		}
+	}
+
+	public void EnemyWalk(int eRansuu) {
+		//犯人が上に歩く
+		if(eRansuu == 1) {
+			if(this.Gx <= 0) {
+				this.RansuuFlag = false;
+				this.Ransuu1 = false;
+			}else if(this.Board[this.Gx - 1][this.Gy].equals(this.Object)
+					|| this.Board[this.Gx - 1][this.Gy].equals(this.Start)){
+				this.RansuuFlag = false;
+				this.Ransuu1 = false;
+				}else{
+					//上に警察がいるか確認いたら乱数やり直し
+					EnemyCheck1();
+					//右上に警察いるか確認いたら乱数やり直し
+					EnemyCheck6();
+					//左上に警察いるか確認いたら乱数やり直し
+					EnemyCheck8();
+					if(this.RansuuFlag == true){
+					this.Board[this.Gx][this.Gy] = String.valueOf(this.Null);
+					this.TrapCount++;
+					this.Gx--;
+					}else{
+						this.Ransuu1 = false;
+					}
+					if(TrapCount >= 2){
+						CleanTrap();
+						this.Tx = Gx;
+						this.Ty = Gy;
+						this.TrapCount = 0;
+					}
+					}
+			}else if(eRansuu == 2){
+				//犯人が下に歩く
+			if(this.Gx >= 8){
+				this.RansuuFlag = false;
+				this.Ransuu2 = false;
+			}else if(this.Board[this.Gx + 1][this.Gy].equals(this.Object)
+					|| this.Board[this.Gx + 1][this.Gy].equals(this.Start)){
+				this.RansuuFlag = false;
+				this.Ransuu2 = false;
+			}else{
+				//下に警察がいるか確認いたら乱数やり直し
+				EnemyCheck2();
+				//右下に警察がいるか確認いたら乱数やり直し
+				EnemyCheck5();
+				//左下に警察いるか確認いたら乱数やり直し
+				EnemyCheck7();
+				if(this.RansuuFlag == true){
+				this.Board[this.Gx][this.Gy] = String.valueOf(this.Null);
+				this.TrapCount++;
+				this.Gx++;
+				}else{
+					this.Ransuu2 = false;
+				}
+				if(TrapCount >= 2){
+					CleanTrap();
+						this.Tx = Gx;
+						this.Ty = Gy;
+						this.TrapCount = 0;
+				}
+				}
+			}else if(eRansuu == 3){
+				//犯人が左に歩く
+			if(this.Gy <= 0){
+				this.RansuuFlag = false;
+				this.Ransuu3 = false;
+			}else if(this.Board[this.Gx][this.Gy - 1].equals(this.Object)
+					|| this.Board[this.Gx][this.Gy - 1].equals(this.Start)){
+				this.RansuuFlag = false;
+				this.Ransuu3 = false;
+			}else{
+				//左に警察がいるか確認いたら乱数やり直し
+				EnemyCheck3();
+				//左下に警察いるか確認いたら乱数やり直し
+				EnemyCheck7();
+				//左上に警察いるか確認いたら乱数やり直し
+				EnemyCheck8();
+				if(RansuuFlag == true){
+				this.Board[this.Gx][this.Gy] = String.valueOf(this.Null);
+				this.TrapCount++;
+				this.Gy--;
+				}else{
+					this.Ransuu3 = false;
+				}
+				if(TrapCount >= 2){
+					CleanTrap();
+					this.Tx = Gx;
+					this.Ty = Gy;
+					this.TrapCount = 0;
+				}
+			}
+			}else if(eRansuu == 4){
+				//犯人が右に歩く
+			if(this.Gy >= 8){
+				this.RansuuFlag = false;
+				this.Ransuu4 = false;
+			}else if(this.Board[this.Gx][this.Gy + 1].equals(this.Object)
+					|| this.Board[this.Gx][this.Gy + 1].equals(this.Start)){
+				this.RansuuFlag = false;
+				this.Ransuu4 = false;
+			}else{
+				//右に警察がいるか確認いたら乱数やり直し
+				EnemyCheck4();
+				//右下に警察がいるか確認いたら乱数やり直し
+				EnemyCheck5();
+				//右上に警察いるか確認いたら乱数やり直し
+				EnemyCheck6();
+				if(RansuuFlag == true){
+				this.Board[this.Gx][this.Gy] = String.valueOf(this.Null);
+				this.TrapCount++;
+				this.Gy++;
+				}else{
+					this.Ransuu4 = false;
+				}
+				if(TrapCount >= 2){
+					CleanTrap();
+					this.Tx = Gx;
+					this.Ty = Gy;
+					this.TrapCount = 0;
+				}
+				}
+			}
+			}
+
+
+	
+	public void Check(){
+			if(this.Sx > 0){
+			if(this.Board[this.Sx - 1][this.Sy].equals(this.Null)){
+				this.MasuFlag = true;
+			}
+			}
+			if(this.Sx < 8){
+			if(this.Board[this.Sx + 1][this.Sy].equals(this.Null)){
+				this.MasuFlag = true;
+			}
+			}
+			if(this.Sy > 0){
+			if(this.Board[this.Sx][this.Sy - 1].equals(this.Null)){	
+				this.MasuFlag = true;
+			}
+			}
+			if(this.Sy < 8){
+			if(this.Board[this.Sx][this.Sy + 1].equals(this.Null)){
+				this.MasuFlag = true;
+			}
+			}
+	}
+
+	public void Hantei(){
+		if(this.Gx == this.Sx){
+			if(this.Gy == this.Sy){	
+			this.HanteiFlag = true;
+		}
+				}
+			}
+	
+	//上に警察がいるか確認いたら乱数やり直し
+	public void EnemyCheck1(){
+		this.a = this.Gx;
+		for(int i = this.a; i >= 0; i--){
+			if(this.Board[i][this.Gy].equals(this.Start)){
+				this.RansuuFlag = false;
+				break;
+				}
+			}
+		}
+	
+	
+	//下に警察がいるか確認いたら乱数やり直し
+	public void EnemyCheck2(){
+		this.a = this.Gx;
+		for(int i = this.a; i < 9; i++){
+			if(this.Board[i][this.Gy].equals(this.Start)){
+				this.RansuuFlag = false;
+				break;
+			}
+		}
+	}
+	
+	//左に警察がいるか確認いたら乱数やり直し
+	public void EnemyCheck3(){
+		this.a = this.Gy;
+		for(int i = this.a; i >= 0 ; i--){
+			if(this.Board[this.Gx][i].equals(this.Start)){
+				this.RansuuFlag = false;
+				break;
+			}
+		}
+	}
+	
+	//右に警察がいるか確認いたら乱数やり直し
+	public void EnemyCheck4(){
+		this.a = this.Gy;
+		for(int i = this.a; i < 9; i++){
+			if(this.Board[this.Gx][i].equals(this.Start)){
+				this.RansuuFlag = false;
+				break;
+			}
+		}
+	}
+	
+	//右下に警察がいるか確認いたら乱数やり直し
+	public void EnemyCheck5(){
+		this.b = this.Gx;
+		this.c = this.Gy;
+		for(int i = 0; i < 9; i++){
+			if(this.Board[this.b][this.c].equals(this.Start)){
+				this.RansuuFlag = false;
+				break;
+			}
+		if(this.b == 8){
+			break;
+		}else if(this.c == 8){
+			break;
+		}
+		this.b ++;
+		this.c ++;
+		}
+	}
+	
+	//右上に警察いるか確認いたら乱数やり直し
+	public void EnemyCheck6(){
+		this.b = this.Gx;
+		this.c = this.Gy;
+		for(int i = 0; i < 9; i++){
+			if(this.Board[this.b][this.c].equals(this.Start)){
+				this.RansuuFlag = false;
+				break;
+			}
+		if(this.b == 0){
+			break;
+		}else if(this.c == 8){
+			break;
+		}
+		this.b --;
+		this.c ++;
+		}
+	}
+	
+	//左下に警察いるか確認いたら乱数やり直し
+	public void EnemyCheck7(){
+	this.b = this.Gx;
+	this.c = this.Gy;
+	for(int i = 0; i < 9; i++){
+		if(this.Board[this.b][this.c].equals(this.Start)){
+			this.RansuuFlag = false;
+			break;
+		}
+	if(this.b == 8){
+		break;
+	}else if(this.c == 0){
+		break;
+	}
+	this.b ++;
+	this.c --;
+	}
+	}
+	
+	//左上に警察いるか確認いたら乱数やり直し
+	public void EnemyCheck8(){
+		this.b = this.Gx;
+		this.c = this.Gy;
+		for(int i = 0; i < 9; i++){
+			if(this.Board[this.b][this.c].equals(this.Start)){
+				this.RansuuFlag = false;
+				break;
+			}
+		if(this.b == 0){
+			break;
+		}else if(this.c == 0){
+			break;
+		}
+		this.b --;
+		this.c --;
+		}
+		}
+	
+	
+	
+	
+	
+	public void CleanTrap(){
+		for(int i = 0; i < 9; i++){
+			for(int r = 0; r < 9; r++) {
+				if(this.Board[i][r].equals(this.Trap)){
+					this.Board[i][r] = String.valueOf(this.Null);
+				}
+			}
+			}
+	}
+
+	public void Destroy(String destroy) {
+		if(destroy.equals("w") || destroy.equals("W")){
+			if(this.Sx > 0){
+				if(this.Board[this.Sx - 1][this.Sy].equals(this.Object)){
+					System.out.println("上の建物を解体します。");
+					this.MainDestroyFlag = true;
+					this.DestroyFlag1 = true;
+				}else{
+					System.out.println("上に建物がありません。");
+				}
+				}else{
+					System.out.println("上に建物がありません。");
+				}
+		}else if(destroy.equals("s") || destroy.equals("S")){
+			if(this.Sx < 8){
+			if(this.Board[this.Sx + 1][this.Sy].equals(this.Object)){
+				System.out.println("下の建物を解体します。");
+				this.MainDestroyFlag = true;
+				this.DestroyFlag2 = true;
+			}else{
+				System.out.println("下に建物がありません。");
+			}
+			}else{
+				System.out.println("下に建物がありません。");
+			}
+		}else if(destroy.equals("a") || destroy.equals("A")){
+				if(this.Sy > 0){
+					if(this.Board[this.Sx][this.Sy - 1].equals(this.Object)){
+						System.out.println("左の建物を解体します。");
+						this.MainDestroyFlag = true;
+						this.DestroyFlag3 = true;
+					}else{
+						System.out.println("左に建物がありません。");
+					}
+					}else{
+						System.out.println("左に建物がありません。");
+					}
+			}else if(destroy.equals("d") || destroy.equals("D")){
+				if(this.Sy < 8){
+					if(this.Board[this.Sx][this.Sy + 1].equals(this.Object)){
+						System.out.println("右の建物を解体します。");
+						this.MainDestroyFlag = true;
+						this.DestroyFlag4 = true;
+					}else{
+						System.out.println("右に建物がありません。");
+					}
+					}else{
+						System.out.println("右に建物がありません。");
+					}
+			}
+		}
+
+	public void DestroyObject() {
+		if(this.DestroyFlag1 == true){
+			this.Board[this.Sx - 1][this.Sy] = String.valueOf(this.Null);
+		}else if(this.DestroyFlag2 == true){
+			this.Board[this.Sx + 1][this.Sy] = String.valueOf(this.Null);
+		}else if(this.DestroyFlag3 == true){
+			this.Board[this.Sx][this.Sy - 1] = String.valueOf(this.Null);
+		}else if(this.DestroyFlag4 == true){
+			this.Board[this.Sx][this.Sy + 1] = String.valueOf(this.Null);
+		}
+	}
+
+	public void ClearFlag() {
+		this.MainDestroyFlag = false;
+		this.DestroyFlag1 = false;
+		this.DestroyFlag2 = false;
+		this.DestroyFlag3 = false;
+		this.DestroyFlag4 = false;
+	}
+
+	public void RansuuClear() {
+		this.Ransuu1 = true;
+		this.Ransuu2 = true;
+		this.Ransuu3 = true;
+		this.Ransuu4 = true;
+	}
+
+	public void Claft() {
+		for(int i = 0; i < 9; i++){
+			for(int r = 0; r < 9; r++) {
+				if(i == 0 || i == 8 || r == 0 || r == 8){
+					continue;
+				}else{
+				this.Board[i][r] = String.valueOf(this.Object);
+				}
+			}
+	}
+	}
+}
+
+	
