@@ -1,0 +1,156 @@
+package game;
+
+public class Map {
+		public static void main(String[] args) throws Exception{
+			int Count = 1;
+			MapBoard MB = new MapBoard();
+			MB.CleanBoard();
+			while(true){
+				int RansuuJ = new java.util.Random().nextInt(9);
+				MB.Board[1][1] = String.valueOf(MB.Object);
+				MB.Board[1][7] = String.valueOf(MB.Object);
+				MB.Board[7][1] = String.valueOf(MB.Object);
+				MB.Board[7][7] = String.valueOf(MB.Object);
+				if(MB.Board[1][RansuuJ].equals(MB.Null) && MB.ObjectFlag == 1){
+					MB.Board[1][RansuuJ] = String.valueOf(MB.Object);
+					MB.ObjectCount++;
+					if(MB.ObjectCount == 4){
+						MB.ObjectCount = 0;
+						MB.ObjectFlag++;
+					}
+					}else if(MB.Board[2][RansuuJ].equals(MB.Null) && MB.ObjectFlag == 2){
+						MB.Board[2][RansuuJ] = String.valueOf(MB.Object);
+						MB.ObjectCount++;
+						if(MB.ObjectCount == 4){
+							MB.ObjectCount = 0;
+							MB.ObjectFlag++;
+						}
+					}else  if(MB.Board[3][RansuuJ].equals(MB.Null) && MB.ObjectFlag == 3){
+						MB.Board[3][RansuuJ] = String.valueOf(MB.Object);
+						MB.ObjectCount++;
+						if(MB.ObjectCount == 4){
+							MB.ObjectCount = 0;
+							MB.ObjectFlag++;
+						}
+					}else  if(MB.Board[4][RansuuJ].equals(MB.Null) && MB.ObjectFlag == 4){
+						MB.Board[4][RansuuJ] = String.valueOf(MB.Object);
+						MB.ObjectCount++;
+						if(MB.ObjectCount == 4){
+							MB.ObjectCount = 0;
+							MB.ObjectFlag++;
+						}
+					}else  if(MB.Board[5][RansuuJ].equals(MB.Null) && MB.ObjectFlag == 5){
+						MB.Board[5][RansuuJ] = String.valueOf(MB.Object);
+						MB.ObjectCount++;
+						if(MB.ObjectCount == 4){
+							MB.ObjectCount = 0;
+							MB.ObjectFlag++;
+						}
+					}else  if(MB.Board[6][RansuuJ].equals(MB.Null) && MB.ObjectFlag == 6){
+						MB.Board[6][RansuuJ] = String.valueOf(MB.Object);
+						MB.ObjectCount++;
+						if(MB.ObjectCount == 4){
+							MB.ObjectCount = 0;
+							MB.ObjectFlag++;
+						}
+					}else  if(MB.Board[7][RansuuJ].equals(MB.Null) && MB.ObjectFlag == 7){
+						MB.Board[7][RansuuJ] = String.valueOf(MB.Object);
+						MB.ObjectCount++;
+						if(MB.ObjectCount == 4){
+							break;
+						}
+					}
+			}
+			while(true){
+			if(MB.MainDestroyFlag == false){
+			MB.MapFace();
+			System.out.println("(" + (MB.Turn + 1) + "ターン目)");
+			}else{
+				Thread.sleep(800);
+			MB.MapFace();
+			System.out.println("(" + (MB.Turn + 1) + "ターン目)");
+			}
+			if(MB.MainDestroyFlag == false){
+			System.out.println("１マス進む場所を選択してください(" + (MB.Scount + 1) + "歩目)");
+			System.out.println("w : 上に進む / d : 右に進む / a : 左に進む /  s : 下に進む /");
+			System.out.println(" r : 建物を壊す(2ターンかかる) / f : 待機する");
+			String walk = new java.util.Scanner(System.in).nextLine();
+			if(walk.equals("r") || walk.equals("R")){
+				System.out.println("どの建物を壊す？");
+				System.out.println("w : 上 / d : 右 / a : 左 / s : 下");
+				String destroy = new java.util.Scanner(System.in).nextLine();
+				MB.Destroy(destroy);
+				if(MB.MainDestroyFlag == false){
+					continue;
+				}else{
+					MB.Scount = 2;
+					MB.MapFace();
+				}
+			}else{
+			MB.Walk(walk);
+			MB.Hantei();
+			}
+			System.out.println("");
+			if(MB.HanteiFlag == true){
+				MB.MapFace();
+				System.out.println("現在時刻" + Count + "ターン!犯人無事確保!!!");
+				break;
+			}
+			if(MB.Scount < 2){
+				continue;
+			}else{
+				MB.Scount = 0;
+				MB.MapFace();
+			}
+			}else{
+				if(MB.MainDestroyFlag == true){
+					MB.DestroyCount++;
+					}
+				System.out.println("解体中(残り" + (1 - MB.DestroyCount) + "ターン)");
+				System.out.println("");
+				if(MB.DestroyCount == 1){
+					MB.DestroyCount = 0;
+					MB.DestroyObject();
+					MB.ClearFlag();
+					System.out.println("解体終了!");
+				}
+			}
+			while(true){
+				if(MB.HanteiFlag == true){
+					break;
+				}
+				if(MB.HanteiFlag == false){
+					MB.Check();
+			if(MB.MasuFlag = true){
+			int ERansuu = new java.util.Random().nextInt(4) + 1;
+			MB.EnemyWalk(ERansuu);
+			MB.MasuFlag = false;
+			}
+			if(MB.Ransuu1 == false
+					&& MB.Ransuu2 == false
+					&& MB.Ransuu3 == false
+					&& MB.Ransuu4 == false){
+				MB.RansuuFlag = true;
+				MB.RansuuClear();
+			}
+			if(MB.RansuuFlag == false){
+				MB.RansuuFlag = true;
+				continue;
+			}else{
+				System.out.println("");
+				System.out.println("敵のターン");
+				System.out.println("");
+				Thread.sleep(800);
+				MB.MapFace();
+				break;
+			}
+			}
+			}
+			MB.Turn ++;
+			Count++;
+			System.out.println("");
+			}
+			}
+		}
+
+		
