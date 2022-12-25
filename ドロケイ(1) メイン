@@ -21,35 +21,35 @@ public class Map {
 					}else if(MB.Board[2][RansuuJ].equals(MB.Null) && MB.ObjectFlag == 2){
 						MB.Board[2][RansuuJ] = String.valueOf(MB.Object);
 						MB.ObjectCount++;
-						if(MB.ObjectCount == 4){
+						if(MB.ObjectCount == 5){
 							MB.ObjectCount = 0;
 							MB.ObjectFlag++;
 						}
 					}else  if(MB.Board[3][RansuuJ].equals(MB.Null) && MB.ObjectFlag == 3){
 						MB.Board[3][RansuuJ] = String.valueOf(MB.Object);
 						MB.ObjectCount++;
-						if(MB.ObjectCount == 4){
+						if(MB.ObjectCount == 5){
 							MB.ObjectCount = 0;
 							MB.ObjectFlag++;
 						}
 					}else  if(MB.Board[4][RansuuJ].equals(MB.Null) && MB.ObjectFlag == 4){
 						MB.Board[4][RansuuJ] = String.valueOf(MB.Object);
 						MB.ObjectCount++;
-						if(MB.ObjectCount == 4){
+						if(MB.ObjectCount == 5){
 							MB.ObjectCount = 0;
 							MB.ObjectFlag++;
 						}
 					}else  if(MB.Board[5][RansuuJ].equals(MB.Null) && MB.ObjectFlag == 5){
 						MB.Board[5][RansuuJ] = String.valueOf(MB.Object);
 						MB.ObjectCount++;
-						if(MB.ObjectCount == 4){
+						if(MB.ObjectCount == 5){
 							MB.ObjectCount = 0;
 							MB.ObjectFlag++;
 						}
 					}else  if(MB.Board[6][RansuuJ].equals(MB.Null) && MB.ObjectFlag == 6){
 						MB.Board[6][RansuuJ] = String.valueOf(MB.Object);
 						MB.ObjectCount++;
-						if(MB.ObjectCount == 4){
+						if(MB.ObjectCount == 5){
 							MB.ObjectCount = 0;
 							MB.ObjectFlag++;
 						}
@@ -64,11 +64,18 @@ public class Map {
 			while(true){
 			if(MB.MainDestroyFlag == false){
 			MB.MapFace();
-			System.out.println("(" + (MB.Turn + 1) + "ターン目)");
+			MB.ObjectCheck();
+			System.out.println("");
+			System.out.println("(" + Count + "ターン目)");
 			}else{
 				Thread.sleep(800);
 			MB.MapFace();
-			System.out.println("(" + (MB.Turn + 1) + "ターン目)");
+			MB.ObjectCheck();
+			System.out.println("");
+			System.out.println("");
+			MB.ObjectCheck();
+			System.out.println("");
+			System.out.println("(" + Count + "ターン目)");
 			}
 			if(MB.MainDestroyFlag == false){
 			System.out.println("１マス進む場所を選択してください(" + (MB.Scount + 1) + "歩目)");
@@ -85,6 +92,8 @@ public class Map {
 				}else{
 					MB.Scount = 2;
 					MB.MapFace();
+					MB.ObjectCheck();
+					System.out.println("");
 				}
 			}else{
 			MB.Walk(walk);
@@ -101,6 +110,8 @@ public class Map {
 			}else{
 				MB.Scount = 0;
 				MB.MapFace();
+				MB.ObjectCheck();
+				System.out.println("");
 			}
 			}else{
 				if(MB.MainDestroyFlag == true){
@@ -148,6 +159,7 @@ public class Map {
 			}
 			MB.Turn ++;
 			Count++;
+			MB.ObjectCheck();
 			System.out.println("");
 			}
 			}
