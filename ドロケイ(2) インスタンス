@@ -9,19 +9,20 @@ public class MapBoard {
 	final String Null = "￣";
 	int ObjectFlag = 1;
 	int ObjectCount = 0;
-	int Gx = 0;
-	int Gy = 0;
-	int Sx = 8;
-	int Sy = 8;
-	int Tx;
-	int Ty;
+	int DebugObjectCount = 0;
+	private int Gx = 0;
+	private int Gy = 0;
+	private int Sx = 8;
+	private int Sy = 8;
+	private int a = 0;
+	private int b = 0;
+	private int c = 0;
+	private int Tx;
+	private int Ty;
+	int Turn = 0;
 	int Num = 0;
 	int Scount = 0;
 	int TrapCount = 0;
-	int Turn = 0;
-	int a = 0;
-	int b = 0;
-	int c = 0;
 	int DestroyCount = 0;
 	boolean RansuuFlag = true;
 	boolean MasuFlag = false;
@@ -31,19 +32,29 @@ public class MapBoard {
 	boolean Ransuu2 = true;
 	boolean Ransuu3 = true;
 	boolean Ransuu4 = true;
-	boolean DestroyFlag1 =  false;
-	boolean DestroyFlag2 =  false;
-	boolean DestroyFlag3 =  false;
-	boolean DestroyFlag4 =  false;
+	private boolean DestroyFlag1 =  false;
+	private boolean DestroyFlag2 =  false;
+	private boolean DestroyFlag3 =  false;
+	private boolean DestroyFlag4 =  false;
 	
 	public void MapFace() {
 		for(int i = 0; i < 9; i++){
 			for(int r = 0; r < 9; r++) {
 				System.out.print("|");
-				if(this.Turn >= 3){
+				if(i == this.Tx && r == this.Ty){
+				if(this.Board[this.Tx][this.Ty].equals(this.Object)){
+					this.Board[this.Tx][this.Ty] = String.valueOf(this.Object);
+				}else if(this.Turn >= 4){
 				this.Board[this.Tx][this.Ty] = String.valueOf(this.Trap);
 				}
+				}
+				if(i == this.Gx && r == this.Gy){
+				if(this.Board[this.Gx][this.Gy].equals(this.Object)){
+					this.Board[this.Gx][this.Gy] = String.valueOf(this.Object);
+				}else{
 				this.Board[this.Gx][this.Gy] = String.valueOf(this.Goal);
+				}
+				}
 				this.Board[this.Sx][this.Sy] = String.valueOf(this.Start);
 				if(this.HanteiFlag == true){
 					this.Board[this.Gx][this.Gy] = String.valueOf(this.End);
@@ -141,8 +152,8 @@ public class MapBoard {
 			if(this.Gx <= 0) {
 				this.RansuuFlag = false;
 				this.Ransuu1 = false;
-			}else if(this.Board[this.Gx - 1][this.Gy].equals(this.Object)
-					|| this.Board[this.Gx - 1][this.Gy].equals(this.Start)){
+			}else if(/*this.Board[this.Gx - 1][this.Gy].equals(this.Object)
+					||*/ this.Board[this.Gx - 1][this.Gy].equals(this.Start)){
 				this.RansuuFlag = false;
 				this.Ransuu1 = false;
 				}else{
@@ -153,9 +164,14 @@ public class MapBoard {
 					//左上に警察いるか確認いたら乱数やり直し
 					EnemyCheck8();
 					if(this.RansuuFlag == true){
+						if(this.Board[this.Gx][this.Gy].equals(this.Object)){
+							this.TrapCount++;
+							this.Gx--;
+						}else{
 					this.Board[this.Gx][this.Gy] = String.valueOf(this.Null);
 					this.TrapCount++;
 					this.Gx--;
+						}
 					}else{
 						this.Ransuu1 = false;
 					}
@@ -171,8 +187,8 @@ public class MapBoard {
 			if(this.Gx >= 8){
 				this.RansuuFlag = false;
 				this.Ransuu2 = false;
-			}else if(this.Board[this.Gx + 1][this.Gy].equals(this.Object)
-					|| this.Board[this.Gx + 1][this.Gy].equals(this.Start)){
+			}else if(/*this.Board[this.Gx + 1][this.Gy].equals(this.Object)
+					||*/ this.Board[this.Gx + 1][this.Gy].equals(this.Start)){
 				this.RansuuFlag = false;
 				this.Ransuu2 = false;
 			}else{
@@ -183,9 +199,14 @@ public class MapBoard {
 				//左下に警察いるか確認いたら乱数やり直し
 				EnemyCheck7();
 				if(this.RansuuFlag == true){
+					if(this.Board[this.Gx][this.Gy].equals(this.Object)){
+						this.TrapCount++;
+						this.Gx++;
+					}else{
 				this.Board[this.Gx][this.Gy] = String.valueOf(this.Null);
 				this.TrapCount++;
 				this.Gx++;
+					}
 				}else{
 					this.Ransuu2 = false;
 				}
@@ -201,8 +222,8 @@ public class MapBoard {
 			if(this.Gy <= 0){
 				this.RansuuFlag = false;
 				this.Ransuu3 = false;
-			}else if(this.Board[this.Gx][this.Gy - 1].equals(this.Object)
-					|| this.Board[this.Gx][this.Gy - 1].equals(this.Start)){
+			}else if(/*this.Board[this.Gx][this.Gy - 1].equals(this.Object)
+					||*/ this.Board[this.Gx][this.Gy - 1].equals(this.Start)){
 				this.RansuuFlag = false;
 				this.Ransuu3 = false;
 			}else{
@@ -213,9 +234,14 @@ public class MapBoard {
 				//左上に警察いるか確認いたら乱数やり直し
 				EnemyCheck8();
 				if(RansuuFlag == true){
+					if(this.Board[this.Gx][this.Gy].equals(this.Object)){
+						this.TrapCount++;
+						this.Gy--;
+					}else{
 				this.Board[this.Gx][this.Gy] = String.valueOf(this.Null);
 				this.TrapCount++;
 				this.Gy--;
+			}
 				}else{
 					this.Ransuu3 = false;
 				}
@@ -231,8 +257,8 @@ public class MapBoard {
 			if(this.Gy >= 8){
 				this.RansuuFlag = false;
 				this.Ransuu4 = false;
-			}else if(this.Board[this.Gx][this.Gy + 1].equals(this.Object)
-					|| this.Board[this.Gx][this.Gy + 1].equals(this.Start)){
+			}else if(/*this.Board[this.Gx][this.Gy + 1].equals(this.Object)
+					||*/ this.Board[this.Gx][this.Gy + 1].equals(this.Start)){
 				this.RansuuFlag = false;
 				this.Ransuu4 = false;
 			}else{
@@ -243,9 +269,14 @@ public class MapBoard {
 				//右上に警察いるか確認いたら乱数やり直し
 				EnemyCheck6();
 				if(RansuuFlag == true){
+					if(this.Board[this.Gx][this.Gy].equals(this.Object)){
+						this.TrapCount++;
+						this.Gx++;
+					}else{
 				this.Board[this.Gx][this.Gy] = String.valueOf(this.Null);
 				this.TrapCount++;
 				this.Gy++;
+					}
 				}else{
 					this.Ransuu4 = false;
 				}
@@ -517,6 +548,22 @@ public class MapBoard {
 			}
 	}
 	}
+
+	public void ObjectCheck() {
+		for(int i = 0; i < 9; i++){
+			for(int r = 0; r < 9; r++){
+				if(this.Board[i][r].equals(this.Object)){
+					this.DebugObjectCount++;
+				}
+			}
+			}
+		System.out.println("建物(○)の数(" + this.DebugObjectCount + ")個");
+		this.DebugObjectCount = 0;
+	}
 }
 
+	
+
+
+	
 	
